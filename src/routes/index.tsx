@@ -376,7 +376,7 @@ function GiftCard({ tag, title, body, cta, href, onClick }: { tag: string; title
 
 function Seating() {
   const [query, setQuery] = useState("");
-  const result = useMemo(() => {
+  const result = useMemo<null | "missing" | { table: string; hall: string }>(() => {
     const q = query.trim().toLowerCase();
     if (!q) return null;
     const match = SEATING[q];
