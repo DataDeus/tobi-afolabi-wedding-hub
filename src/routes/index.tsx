@@ -12,14 +12,17 @@ import g1 from "@/assets/gallery-1.jpg";
 import g2 from "@/assets/gallery-2.jpg";
 import g3 from "@/assets/gallery-3.jpg";
 import g4 from "@/assets/gallery-4.jpg";
+import logoAsset from "@/assets/wedding-logo.png.asset.json";
+import seatingChartAsset from "@/assets/seating-chart.png.asset.json";
+import seatingChartPdfAsset from "@/assets/seating-chart.pdf.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Oluwatobi & Afolabi — The Afolabi Union" },
-      { name: "description", content: "Celebrating the union of Oluwatobi & Afolabi. Court, traditional, and church weddings in Lagos." },
-      { property: "og:title", content: "Oluwatobi & Afolabi — The Afolabi Union" },
-      { property: "og:description", content: "Three days of joy in Lagos. RSVP, aso-ebi, registry, and more." },
+      { title: "Tobi & Adebola — #withloveat26" },
+      { name: "description", content: "Celebrating the union of Oluwatobi & Adebola. Court, traditional, and church weddings in Lagos. #withloveat26" },
+      { property: "og:title", content: "Tobi & Adebola — #withloveat26" },
+      { property: "og:description", content: "Three days of joy in Lagos. RSVP, aso-ebi, registry, seating chart and more." },
     ],
   }),
   component: Index,
@@ -119,15 +122,18 @@ function Nav() {
     ["Gallery", "gallery"],
   ];
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background/75 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#top" className="font-display italic text-2xl text-bronze-shimmer tracking-tight">O&A</a>
+    <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="#top" className="flex items-center gap-3">
+          <img src={logoAsset.url} alt="Tobi & Adebola monogram" className="h-12 w-12 object-contain" />
+          <span className="hidden sm:block font-display italic text-xl text-gold-shimmer tracking-tight">Tobi &amp; Adebola</span>
+        </a>
         <div className="hidden lg:flex gap-7 text-[11px] uppercase tracking-[0.22em] font-medium text-foreground/70">
           {links.map(([l, h]) => (
             <a key={h} href={`#${h}`} className="hover:text-primary transition-colors">{l}</a>
           ))}
         </div>
-        <a href="#rsvp" className="px-5 py-2.5 bg-primary text-primary-foreground text-[10px] uppercase tracking-[0.22em] font-semibold hover:bg-bronze-deep hover:text-cream transition-colors">
+        <a href="#rsvp" className="px-5 py-2.5 bg-gradient-gold text-midnight text-[10px] uppercase tracking-[0.22em] font-semibold hover:opacity-90 transition-opacity">
           RSVP
         </a>
       </div>
@@ -138,23 +144,25 @@ function Nav() {
 function Hero() {
   const countdown = useCountdown(WEDDING_DATE);
   return (
-    <header id="top" className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+    <header id="top" className="relative min-h-[100vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <img src={heroCouple} alt="Oluwatobi and Afolabi" width={1280} height={1600} className="w-full h-full object-cover object-center opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
+        <img src={heroCouple} alt="Oluwatobi and Adebola" width={1280} height={1600} className="w-full h-full object-cover object-center opacity-35" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background" />
       </div>
 
-      <div className="animate-fade-up">
-        <span className="font-mono text-[10px] uppercase tracking-[0.4em] mb-6 block text-primary">
+      <div className="animate-fade-up flex flex-col items-center">
+        <img src={logoAsset.url} alt="Tobi & Adebola monogram" className="h-28 md:h-36 w-auto mb-6 drop-shadow-[0_4px_24px_rgba(225,164,66,0.35)]" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.4em] mb-6 block text-gold-light">
           Lagos, Nigeria · December 2026
         </span>
         <h1 className="font-display text-6xl md:text-8xl lg:text-9xl italic leading-[0.9] text-balance mb-6">
           Oluwatobi <br className="md:hidden" />
-          <span className="text-bronze-shimmer not-italic">&</span> Afolabi
+          <span className="text-gold-shimmer not-italic">&</span> Adebola
         </h1>
         <p className="font-display italic text-lg md:text-xl text-foreground/70 max-w-xl mx-auto">
           Two families. Three ceremonies. A lifetime of love.
         </p>
+        <p className="mt-6 font-mono text-xs tracking-[0.3em] uppercase text-gold-shimmer">#withloveat26</p>
       </div>
 
       <div className="mt-12 flex gap-6 md:gap-12 border-y border-border py-6 animate-fade-up" style={{ animationDelay: "200ms" }}>
@@ -171,8 +179,8 @@ function Hero() {
         ))}
       </div>
 
-      <div className="absolute -bottom-8 left-0 w-full opacity-[0.04] select-none pointer-events-none">
-        <span className="text-[18vw] font-display italic whitespace-nowrap text-primary">The Afolabi Union</span>
+      <div className="absolute -bottom-8 left-0 w-full opacity-[0.05] select-none pointer-events-none">
+        <span className="text-[18vw] font-display italic whitespace-nowrap text-primary">#withloveat26</span>
       </div>
     </header>
   );
