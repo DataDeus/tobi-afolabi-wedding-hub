@@ -39,7 +39,7 @@ const EVENTS = [
     title: "Court Wedding",
     venue: "Ikoyi Marriage Registry, Lagos",
     cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Afolabi — Court Wedding", "Ikoyi Marriage Registry, Lagos", "20261209T100000", "20261209T120000"),
+    ics: makeIcs("Oluwatobi & Adebola — Court Wedding", "Ikoyi Marriage Registry, Lagos", "20261209T100000", "20261209T120000"),
   },
   {
     tag: "Day Two",
@@ -48,7 +48,7 @@ const EVENTS = [
     title: "Traditional Engagement",
     venue: "The Grand Atrium, Abule-Egba, Lagos",
     cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Afolabi — Traditional Engagement", "The Grand Atrium, Abule-Egba, Lagos", "20261211T120000", "20261211T180000"),
+    ics: makeIcs("Oluwatobi & Adebola — Traditional Engagement", "The Grand Atrium, Abule-Egba, Lagos", "20261211T120000", "20261211T180000"),
   },
   {
     tag: "Day Three",
@@ -57,7 +57,7 @@ const EVENTS = [
     title: "Church Wedding & Reception",
     venue: "RCCG City of David, Victoria Island, Lagos",
     cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Afolabi — Church Wedding & Reception", "RCCG City of David, Victoria Island, Lagos", "20261212T110000", "20261212T220000"),
+    ics: makeIcs("Oluwatobi & Adebola — Church Wedding & Reception", "RCCG City of David, Victoria Island, Lagos", "20261212T110000", "20261212T220000"),
   },
 ];
 
@@ -305,7 +305,7 @@ function Asoebi() {
           </p>
           <div className="p-6 bg-background border border-border">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] mb-3 text-primary">Payment Details</p>
-            <p className="text-sm font-medium">GTBank · Afolabi & Tobi</p>
+            <p className="text-sm font-medium">GTBank · Adebola & Tobi</p>
             <p className="text-sm tabular-nums opacity-80">0123 456 789</p>
           </div>
         </div>
@@ -354,7 +354,7 @@ function Registry() {
             <span className="block font-mono text-xs leading-relaxed">
               GTBank<br />
               0123 456 789<br />
-              Afolabi & Tobi
+              Adebola & Tobi
             </span>
           }
           cta="Copy Account"
@@ -533,7 +533,7 @@ function Field({ label, name, type = "text", required, placeholder }: { label: s
 function Footer() {
   return (
     <footer className="py-16 border-t border-border text-center px-6">
-      <p className="font-display italic text-3xl text-bronze-shimmer mb-2">#TheAfolabiUnion2026</p>
+      <p className="font-display italic text-3xl text-gold-shimmer mb-2">#withloveat26</p>
       <p className="font-mono text-[9px] uppercase tracking-[0.3em] opacity-50 text-balance max-w-md mx-auto mt-4">
         With deep gratitude to our parents, family, and dear friends who have walked this road with us.
       </p>
@@ -564,7 +564,7 @@ function makeIcs(title: string, location: string, start: string, end: string) {
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Afolabi Union//EN",
+    "PRODID:-//Tobi & Adebola//EN",
     "BEGIN:VEVENT",
     `UID:${start}-${title.replace(/\s+/g, "")}@afolabi-union`,
     `DTSTAMP:${start}Z`,
