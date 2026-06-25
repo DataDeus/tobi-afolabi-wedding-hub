@@ -393,36 +393,65 @@ function Seating() {
 
   return (
     <section id="seating" className="py-28 px-6 bg-card border-y border-border">
-      <div className="max-w-2xl mx-auto text-center">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Seating Chart</span>
-        <h2 className="font-display text-5xl md:text-6xl italic mb-4">Find Your Seat</h2>
-        <p className="text-sm opacity-70 mb-10 italic">Enter your full name as it appears on your invitation.</p>
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Seating Chart</span>
+          <h2 className="font-display text-5xl md:text-6xl italic mb-4">Find Your Seat</h2>
+          <p className="text-sm opacity-70 italic">Enter your full name as on your invitation, or browse the floor plan below.</p>
+        </div>
 
-        <form onSubmit={(e) => e.preventDefault()} className="relative mb-6">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="e.g. Adunni Okafor"
-            className="w-full border-b border-border py-4 bg-transparent focus:outline-none focus:border-primary font-display italic text-2xl text-center placeholder:opacity-30"
-          />
-        </form>
+        <div className="max-w-2xl mx-auto">
+          <form onSubmit={(e) => e.preventDefault()} className="relative mb-6">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              type="text"
+              placeholder="e.g. Adunni Okafor"
+              className="w-full border-b border-border py-4 bg-transparent focus:outline-none focus:border-primary font-display italic text-2xl text-center placeholder:opacity-30"
+            />
+          </form>
 
-        <div className="min-h-[80px]">
-          {result === "missing" && (
-            <p className="text-sm text-foreground/60 italic">
-              We couldn't find that name. Please check your invitation or reach out to the bridal party.
-            </p>
-          )}
-          {result && result !== "missing" && (
-            <div className="border border-primary/40 p-6 bg-background animate-fade-up">
-              <p className="font-display text-3xl italic text-primary">{result.table}</p>
-              <p className="text-xs opacity-70 mt-2 uppercase tracking-[0.2em]">{result.hall}</p>
+          <div className="min-h-[80px] text-center">
+            {result === "missing" && (
+              <p className="text-sm text-foreground/60 italic">
+                We couldn't find that name. Please check your invitation or reach out to the bridal party.
+              </p>
+            )}
+            {result && result !== "missing" && (
+              <div className="border border-primary/40 p-6 bg-background animate-fade-up">
+                <p className="font-display text-3xl italic text-primary">{result.table}</p>
+                <p className="text-xs opacity-70 mt-2 uppercase tracking-[0.2em]">{result.hall}</p>
+              </div>
+            )}
+            {!result && (
+              <p className="text-[10px] opacity-40 font-mono uppercase tracking-[0.22em]">Try "Adunni Okafor" or "Tunde Balogun"</p>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-20">
+          <div className="flex flex-wrap justify-between items-end gap-4 mb-6">
+            <div>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-2">Reception Floor Plan</span>
+              <h3 className="font-display text-3xl italic">The Hall, At a Glance</h3>
             </div>
-          )}
-          {!result && (
-            <p className="text-[10px] opacity-40 font-mono uppercase tracking-[0.22em]">Try "Adunni Okafor" or "Tunde Balogun"</p>
-          )}
+            <a
+              href={seatingChartPdfAsset.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[10px] uppercase tracking-[0.22em] border border-border px-4 py-2.5 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+            >
+              Download PDF →
+            </a>
+          </div>
+          <div className="border border-border bg-cream p-4 md:p-6">
+            <img
+              src={seatingChartAsset.url}
+              alt="Reception seating chart and floor plan for Tobi and Adebola's wedding"
+              loading="lazy"
+              className="w-full h-auto object-contain"
+            />
+          </div>
         </div>
       </div>
     </section>
