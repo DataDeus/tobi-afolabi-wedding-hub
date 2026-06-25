@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Oluwatobi & Afolabi — The Afolabi Union" },
-      { name: "description", content: "Join Oluwatobi & Afolabi as they celebrate their court, traditional, and church weddings in Lagos, Nigeria." },
-      { property: "og:title", content: "Oluwatobi & Afolabi — The Afolabi Union" },
-      { property: "og:description", content: "Three days of joy in Lagos. RSVP, aso-ebi, registry, and more." },
+      { title: "Tobi & Adebola — #withloveat26" },
+      { name: "description", content: "Join Oluwatobi & Adebola as they celebrate their court, traditional, and church weddings in Lagos, Nigeria. #withloveat26" },
+      { property: "og:title", content: "Tobi & Adebola — #withloveat26" },
+      { property: "og:description", content: "Three days of joy in Lagos. RSVP, aso-ebi, registry, seating chart and more." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Pinyon+Script&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
       },
       { rel: "stylesheet", href: appCss },
     ],
