@@ -31,11 +31,16 @@
   --color-ring: var(--ring);
   --color-bronze: var(--bronze);
   --color-bronze-deep: var(--bronze-deep);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-deep: var(--gold-deep);
   --color-midnight: var(--midnight);
   --color-midnight-soft: var(--midnight-soft);
+  --color-midnight-deep: var(--midnight-deep);
   --color-cream: var(--cream);
 
   --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-script: "Pinyon Script", "Cormorant Garamond", cursive;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -43,47 +48,52 @@
 :root {
   --radius: 0.25rem;
 
-  /* Midnight + bronze evening luxe */
-  --midnight: oklch(0.18 0.04 260);
-  --midnight-soft: oklch(0.24 0.04 260);
-  --bronze: oklch(0.72 0.13 55);
-  --bronze-deep: oklch(0.55 0.13 45);
-  --cream: oklch(0.96 0.02 80);
+  --midnight: #0e3534;
+  --midnight-soft: #154544;
+  --midnight-deep: #082322;
+  --gold-light: #f2de78;
+  --gold: #e1a442;
+  --gold-deep: #6b4118;
+  --cream: #faf4e6;
+  --bronze: var(--gold);
+  --bronze-deep: var(--gold-deep);
 
   --background: var(--midnight);
-  --foreground: oklch(0.94 0.02 80);
+  --foreground: #f6ecd2;
   --card: var(--midnight-soft);
   --card-foreground: var(--foreground);
   --popover: var(--midnight-soft);
   --popover-foreground: var(--foreground);
-  --primary: var(--bronze);
+  --primary: var(--gold);
   --primary-foreground: var(--midnight);
-  --secondary: oklch(0.28 0.04 260);
+  --secondary: #1c5251;
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.26 0.03 260);
-  --muted-foreground: oklch(0.72 0.02 80);
-  --accent: var(--bronze-deep);
+  --muted: #163f3e;
+  --muted-foreground: #c9b890;
+  --accent: var(--gold-deep);
   --accent-foreground: var(--cream);
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.94 0.02 80 / 0.12);
-  --input: oklch(0.94 0.02 80 / 0.15);
-  --ring: var(--bronze);
+  --border: rgba(242, 222, 120, 0.18);
+  --input: rgba(242, 222, 120, 0.22);
+  --ring: var(--gold);
 
-  --chart-1: var(--bronze);
-  --chart-2: var(--bronze-deep);
-  --chart-3: oklch(0.5 0.1 30);
-  --chart-4: oklch(0.4 0.05 260);
+  --gradient-gold: linear-gradient(120deg, #f2de78 0%, #e1a442 50%, #6b4118 100%);
+
+  --chart-1: var(--gold);
+  --chart-2: var(--gold-deep);
+  --chart-3: var(--gold-light);
+  --chart-4: var(--midnight-soft);
   --chart-5: var(--cream);
 
   --sidebar: var(--midnight-soft);
   --sidebar-foreground: var(--foreground);
-  --sidebar-primary: var(--bronze);
+  --sidebar-primary: var(--gold);
   --sidebar-primary-foreground: var(--midnight);
   --sidebar-accent: var(--muted);
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
-  --sidebar-ring: var(--bronze);
+  --sidebar-ring: var(--gold);
 }
 
 @keyframes fade-up {
@@ -99,13 +109,26 @@
   animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@utility text-bronze-shimmer {
-  background: linear-gradient(110deg, var(--bronze) 0%, var(--cream) 45%, var(--bronze-deep) 55%, var(--bronze) 100%);
+@utility text-gold-shimmer {
+  background: linear-gradient(110deg, #f2de78 0%, #e1a442 35%, #6b4118 55%, #e1a442 75%, #f2de78 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 6s linear infinite;
+  animation: shimmer 7s linear infinite;
+}
+
+@utility text-bronze-shimmer {
+  background: linear-gradient(110deg, #f2de78 0%, #e1a442 35%, #6b4118 55%, #e1a442 75%, #f2de78 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+
+@utility bg-gradient-gold {
+  background: var(--gradient-gold);
 }
 
 @layer base {
@@ -122,7 +145,7 @@
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: var(--bronze);
+    background: var(--gold);
     color: var(--midnight);
   }
 }
