@@ -149,3 +149,56 @@
     color: var(--midnight);
   }
 }
+
+/* React DayPicker — wedding theme */
+.rdp-custom {
+  --rdp-accent-color: var(--gold);
+  --rdp-accent-background-color: color-mix(in oklab, var(--gold) 18%, transparent);
+  --rdp-background-color: transparent;
+  --rdp-day-font: var(--font-sans);
+  --rdp-day_button-border-radius: 9999px;
+  --rdp-day_button-width: 2.5rem;
+  --rdp-day_button-height: 2.5rem;
+  color: var(--foreground);
+}
+.rdp-custom .rdp-caption_label,
+.rdp-custom .rdp-month_caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--foreground);
+}
+.rdp-custom .rdp-weekday {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  font-weight: 500;
+}
+.rdp-custom .rdp-day_button {
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
+}
+.rdp-custom .rdp-day_button:hover {
+  background: color-mix(in oklab, var(--gold) 25%, transparent);
+}
+.rdp-custom .event-day .rdp-day_button {
+  background: var(--gradient-gold);
+  color: var(--midnight);
+  font-weight: 600;
+  box-shadow: 0 4px 16px -4px color-mix(in oklab, var(--gold) 50%, transparent);
+}
+.rdp-custom .selected-day .rdp-day_button,
+.rdp-custom .rdp-selected .rdp-day_button {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.rdp-custom .rdp-chevron {
+  fill: var(--gold);
+}
+.rdp-custom .rdp-today:not(.rdp-selected) .rdp-day_button {
+  color: var(--gold);
+  font-weight: 600;
+}
