@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import { Toaster } from "sonner";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 
 import heroCouple from "@/assets/hero-couple.jpg";
 import storyImg from "@/assets/story.jpg";
@@ -12,66 +13,82 @@ import g1 from "@/assets/gallery-1.jpg";
 import g2 from "@/assets/gallery-2.jpg";
 import g3 from "@/assets/gallery-3.jpg";
 import g4 from "@/assets/gallery-4.jpg";
-import logoAsset from "@/assets/wedding-logo.png.asset.json";
-import seatingChartAsset from "@/assets/seating-chart.png.asset.json";
-import seatingChartPdfAsset from "@/assets/seating-chart.pdf.asset.json";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Tobi & Adebola — #withloveat26" },
-      { name: "description", content: "Celebrating the union of Oluwatobi & Adebola. Court, traditional, and church weddings in Lagos. #withloveat26" },
-      { property: "og:title", content: "Tobi & Adebola — #withloveat26" },
-      { property: "og:description", content: "Three days of joy in Lagos. RSVP, aso-ebi, registry, seating chart and more." },
-    ],
-  }),
-  component: Index,
-});
+const ASSET = (p: string) => `${import.meta.env.BASE_URL}assets/${p}`;
+const LOGO = ASSET("wedding-logo.png");
+const WEDDING_PARTY = ASSET("wedding-party.png");
+const SEATING_PNG = ASSET("seating-chart.png");
+const SEATING_PDF = ASSET("seating-chart.pdf");
 
-// Main wedding date used for hero countdown (Church Wedding)
-const WEDDING_DATE = new Date("2026-12-12T11:00:00+01:00");
+const HASHTAG = "#WithLoveAT26";
 
-const EVENTS = [
+type Ev = {
+  key: string;
+  tag: string;
+  date: Date;
+  time: string;
+  title: string;
+  venue: string;
+  address: string;
+  start: string;
+  end: string;
+};
+
+const EVENTS: Ev[] = [
   {
+    key: "court",
     tag: "Day One",
-    date: "Wed, Dec 9, 2026",
-    time: "10:00 AM",
+    date: new Date(2026, 11, 9),
+    time: "9:00 AM",
     title: "Court Wedding",
-    venue: "Ikoyi Marriage Registry, Lagos",
-    cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Adebola — Court Wedding", "Ikoyi Marriage Registry, Lagos", "20261209T100000", "20261209T120000"),
+    venue: "Ikoyi Marriage Registry",
+    address: "Ikoyi, Lagos, Nigeria",
+    start: "20261209T090000",
+    end: "20261209T110000",
   },
   {
-    tag: "Day Two",
-    date: "Fri, Dec 11, 2026",
+    key: "church",
+    tag: "Day Two · Morning",
+    date: new Date(2026, 11, 12),
+    time: "9:00 AM",
+    title: "Church Wedding",
+    venue: "The Wisdom of God Church",
+    address: "15 Siwoku Street, Kabowe Bus-stop, Meiran, Lagos",
+    start: "20261212T090000",
+    end: "20261212T113000",
+  },
+  {
+    key: "trad",
+    tag: "Day Two · Afternoon",
+    date: new Date(2026, 11, 12),
     time: "12:00 PM",
     title: "Traditional Engagement",
-    venue: "The Grand Atrium, Abule-Egba, Lagos",
-    cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Adebola — Traditional Engagement", "The Grand Atrium, Abule-Egba, Lagos", "20261211T120000", "20261211T180000"),
+    venue: "FF Merritage Event Center",
+    address:
+      "11 Agnes Adeniran Street (off Risikat Majaro Road, beside Heritage Mall), U-turn Bus-stop, Abule-Egba, Lagos",
+    start: "20261212T120000",
+    end: "20261212T143000",
   },
   {
-    tag: "Day Three",
-    date: "Sat, Dec 12, 2026",
-    time: "11:00 AM",
-    title: "Church Wedding & Reception",
-    venue: "RCCG City of David, Victoria Island, Lagos",
-    cta: "Add to Calendar",
-    ics: makeIcs("Oluwatobi & Adebola — Church Wedding & Reception", "RCCG City of David, Victoria Island, Lagos", "20261212T110000", "20261212T220000"),
+    key: "reception",
+    tag: "Day Two · Evening",
+    date: new Date(2026, 11, 12),
+    time: "3:00 PM",
+    title: "Reception",
+    venue: "FF Merritage Event Center",
+    address:
+      "11 Agnes Adeniran Street (off Risikat Majaro Road, beside Heritage Mall), U-turn Bus-stop, Abule-Egba, Lagos",
+    start: "20261212T150000",
+    end: "20261212T220000",
   },
 ];
 
-const DRESS_CODE = [
-  { name: "Champagne Bronze", hex: "#C28840", role: "Bride's Family" },
-  { name: "Royal Burgundy", hex: "#5D1B1B", role: "Groom's Family" },
-  { name: "Midnight Navy", hex: "#0F1830", role: "Friends of Couple" },
-  { name: "Ivory Silk", hex: "#F4ECDC", role: "General Guests" },
-];
+const WEDDING_DATE = new Date("2026-12-12T09:00:00+01:00");
 
 const ASOEBI = [
-  { img: fabricAsooke, name: "Traditional Aso-Oke (Bronze)", sub: "Complete Set · 4 Yards + Gele", price: "₦95,000" },
+  { img: fabricAsooke, name: "Traditional Aso-Oke (Teal & Gold)", sub: "Complete Set · 4 Yards + Gele", price: "₦95,000" },
   { img: fabricLace, name: "Reception French Lace", sub: "Premium · 5 Yards + Headtie", price: "₦75,000" },
-  { img: fabricFila, name: "Men's Atiku & Fila Set", sub: "Midnight Navy · 4 Yards", price: "₦55,000" },
+  { img: fabricFila, name: "Men's Atiku & Fila Set", sub: "Deep Teal · 4 Yards", price: "₦55,000" },
 ];
 
 const SEATING: Record<string, { table: string; hall: string }> = {
@@ -88,56 +105,21 @@ const GALLERY = [
   { src: g2, h: "" },
 ];
 
-function Index() {
+export default function App() {
   return (
     <div className="bg-background text-foreground font-sans">
-      <Nav />
       <Hero />
       <Story />
       <Events />
-      <DressCode />
-      <Venue />
+      <WeddingParty />
+      <Maps />
       <Asoebi />
       <Registry />
       <Seating />
       <Gallery />
-      <RSVP />
       <Footer />
       <Toaster theme="dark" position="top-center" />
     </div>
-  );
-}
-
-/* ---------- Sections ---------- */
-
-function Nav() {
-  const links = [
-    ["Story", "story"],
-    ["Events", "events"],
-    ["Dress Code", "dress-code"],
-    ["Venue", "venue"],
-    ["Aso-Ebi", "asoebi"],
-    ["Gifts", "registry"],
-    ["Seating", "seating"],
-    ["Gallery", "gallery"],
-  ];
-  return (
-    <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        <a href="#top" className="flex items-center gap-3">
-          <img src={logoAsset.url} alt="Tobi & Adebola monogram" className="h-12 w-12 object-contain" />
-          <span className="hidden sm:block font-display italic text-xl text-gold-shimmer tracking-tight">Tobi &amp; Adebola</span>
-        </a>
-        <div className="hidden lg:flex gap-7 text-[11px] uppercase tracking-[0.22em] font-medium text-foreground/70">
-          {links.map(([l, h]) => (
-            <a key={h} href={`#${h}`} className="hover:text-primary transition-colors">{l}</a>
-          ))}
-        </div>
-        <a href="#rsvp" className="px-5 py-2.5 bg-gradient-gold text-midnight text-[10px] uppercase tracking-[0.22em] font-semibold hover:opacity-90 transition-opacity">
-          RSVP
-        </a>
-      </div>
-    </nav>
   );
 }
 
@@ -146,12 +128,12 @@ function Hero() {
   return (
     <header id="top" className="relative min-h-[100vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <img src={heroCouple} alt="Oluwatobi and Adebola" width={1280} height={1600} className="w-full h-full object-cover object-center opacity-35" />
+        <img src={heroCouple} alt="Oluwatobi and Adebola" className="w-full h-full object-cover object-center opacity-35" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background" />
       </div>
 
       <div className="animate-fade-up flex flex-col items-center">
-        <img src={logoAsset.url} alt="Tobi & Adebola monogram" className="h-28 md:h-36 w-auto mb-6 drop-shadow-[0_4px_24px_rgba(225,164,66,0.35)]" />
+        <img src={LOGO} alt="Tobi & Adebola monogram" className="h-28 md:h-36 w-auto mb-6 drop-shadow-[0_4px_24px_rgba(225,164,66,0.35)]" />
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] mb-6 block text-gold-light">
           Lagos, Nigeria · December 2026
         </span>
@@ -162,7 +144,7 @@ function Hero() {
         <p className="font-display italic text-lg md:text-xl text-foreground/70 max-w-xl mx-auto">
           Two families. Three ceremonies. A lifetime of love.
         </p>
-        <p className="mt-6 font-mono text-xs tracking-[0.3em] uppercase text-gold-shimmer">#withloveat26</p>
+        <p className="mt-6 font-mono text-xs tracking-[0.3em] uppercase text-gold-shimmer">{HASHTAG}</p>
       </div>
 
       <div className="mt-12 flex gap-6 md:gap-12 border-y border-border py-6 animate-fade-up" style={{ animationDelay: "200ms" }}>
@@ -172,7 +154,7 @@ function Hero() {
           ["Mins", countdown.m],
           ["Secs", countdown.s],
         ].map(([label, v]) => (
-          <div key={label} className="flex flex-col min-w-[60px]">
+          <div key={label as string} className="flex flex-col min-w-[60px]">
             <span className="font-display text-4xl md:text-5xl tabular-nums">{String(v).padStart(2, "0")}</span>
             <span className="font-mono text-[9px] uppercase tracking-[0.2em] opacity-60 mt-1">{label}</span>
           </div>
@@ -180,7 +162,7 @@ function Hero() {
       </div>
 
       <div className="absolute -bottom-8 left-0 w-full opacity-[0.05] select-none pointer-events-none">
-        <span className="text-[18vw] font-display italic whitespace-nowrap text-primary">#withloveat26</span>
+        <span className="text-[18vw] font-display italic whitespace-nowrap text-primary">{HASHTAG}</span>
       </div>
     </header>
   );
@@ -189,7 +171,7 @@ function Hero() {
 function Story() {
   return (
     <section id="story" className="max-w-5xl mx-auto py-28 px-6 grid md:grid-cols-2 gap-16 items-center">
-      <img src={storyImg} alt="The couple at golden hour" width={800} height={1100} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+      <img src={storyImg} alt="The couple at golden hour" loading="lazy" className="aspect-[4/5] w-full object-cover" />
       <div>
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">Our Story</span>
         <h2 className="font-display text-5xl italic mb-8 leading-tight">A Decade in the Making</h2>
@@ -205,85 +187,181 @@ function Story() {
 }
 
 function Events() {
+  const eventDates = useMemo(() => EVENTS.map((e) => e.date), []);
+  const [selected, setSelected] = useState<Date | undefined>(EVENTS[0].date);
+
+  const selectedEvents = useMemo(() => {
+    if (!selected) return [];
+    return EVENTS.filter(
+      (e) =>
+        e.date.getFullYear() === selected.getFullYear() &&
+        e.date.getMonth() === selected.getMonth() &&
+        e.date.getDate() === selected.getDate(),
+    );
+  }, [selected]);
+
   return (
     <section id="events" className="relative py-28 px-6 border-y border-border bg-card">
       <div className="max-w-6xl mx-auto">
         <header className="mb-16 text-center">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">The Calendar</span>
-          <h2 className="font-display text-5xl md:text-6xl italic">Three Days of Joy</h2>
+          <h2 className="font-display text-5xl md:text-6xl italic">Mark Your Dates</h2>
+          <p className="mt-4 text-sm opacity-70 italic max-w-md mx-auto">
+            Click a highlighted date to see the event details.
+          </p>
         </header>
 
-        <div className="grid md:grid-cols-3 gap-10">
-          {EVENTS.map((e) => (
-            <article key={e.title} className="border-l border-primary/40 pl-6 py-3 group">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">{e.tag}</span>
-              <h3 className="font-display text-3xl italic mt-3 mb-3 leading-tight">{e.title}</h3>
-              <p className="text-sm text-foreground/70 mb-1">{e.date} · {e.time}</p>
-              <p className="text-sm text-foreground/60 mb-8 italic">{e.venue}</p>
-              <a
-                href={e.ics}
-                download={`${e.title}.ics`}
-                className="inline-block text-[10px] uppercase tracking-[0.22em] border border-border px-4 py-2.5 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
-              >
-                {e.cta}
-              </a>
-            </article>
-          ))}
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="flex justify-center">
+            <div className="bg-background border border-border p-6 shadow-2xl">
+              <DayPicker
+                mode="single"
+                selected={selected}
+                onSelect={setSelected}
+                defaultMonth={new Date(2026, 11, 1)}
+                modifiers={{ event: eventDates }}
+                modifiersClassNames={{
+                  event: "event-day",
+                  selected: "selected-day",
+                }}
+                classNames={{
+                  root: "rdp-custom",
+                }}
+              />
+              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-border text-[10px] uppercase tracking-[0.22em] opacity-70">
+                <span className="inline-block w-3 h-3 rounded-full bg-gradient-gold" />
+                Wedding event date
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="border-l-2 border-primary pl-5">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-2">
+                {selected
+                  ? selected.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })
+                  : "Select a date"}
+              </span>
+              <h3 className="font-display text-3xl italic">
+                {selectedEvents.length === 0
+                  ? "No events on this day"
+                  : selectedEvents.length === 1
+                    ? selectedEvents[0].title
+                    : `${selectedEvents.length} ceremonies on this day`}
+              </h3>
+            </div>
+
+            {selectedEvents.length === 0 ? (
+              <p className="text-sm opacity-60 italic pl-5">Try Dec 9 or Dec 12, 2026.</p>
+            ) : (
+              selectedEvents.map((e) => (
+                <article key={e.key} className="bg-background border border-border p-6 animate-fade-up">
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">{e.tag}</span>
+                    <span className="font-mono text-xs text-foreground/70">{e.time}</span>
+                  </div>
+                  <h4 className="font-display text-2xl italic mb-2">{e.title}</h4>
+                  <p className="text-sm text-foreground/80 font-medium">{e.venue}</p>
+                  <p className="text-xs text-foreground/60 italic mt-1">{e.address}</p>
+                  <a
+                    href={makeIcs(`Oluwatobi & Adebola — ${e.title}`, `${e.venue}, ${e.address}`, e.start, e.end)}
+                    download={`${e.title}.ics`}
+                    className="mt-5 inline-block text-[10px] uppercase tracking-[0.22em] border border-border px-4 py-2.5 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  >
+                    Add to Calendar
+                  </a>
+                </article>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function DressCode() {
+function WeddingParty() {
   return (
-    <section id="dress-code" className="py-28 px-6 max-w-5xl mx-auto text-center">
-      <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">The Dress Code</span>
-      <h2 className="font-display text-5xl md:text-6xl italic mb-4">Wear Our Colours</h2>
-      <p className="text-sm opacity-70 max-w-md mx-auto mb-16 italic">Guests are warmly encouraged to dress in our wedding palette across all three ceremonies.</p>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {DRESS_CODE.map((c) => (
-          <div key={c.name} className="space-y-4">
-            <div className="aspect-square rounded-full ring-1 ring-border shadow-2xl mx-auto max-w-[180px]" style={{ background: c.hex }} />
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em]">{c.name}</p>
-              <p className="text-[10px] opacity-50 mt-1">{c.role}</p>
-            </div>
-          </div>
-        ))}
+    <section id="dress-code" className="py-28 px-6 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Our Aso-Ebi Family</span>
+          <h2 className="font-display text-5xl md:text-6xl italic mb-6 leading-tight">Wear Our Colours</h2>
+          <p className="text-base opacity-80 leading-relaxed mb-4">
+            Our family and friends will be glowing in tones of <span className="text-primary italic">teal, emerald</span>,
+            and <span className="text-primary italic">gold</span> across both wedding days.
+          </p>
+          <p className="text-sm opacity-60 italic">
+            Order your aso-ebi fabric below to join the family portrait.
+          </p>
+        </div>
+        <div className="border border-border bg-card p-3">
+          <img
+            src={WEDDING_PARTY}
+            alt="Wedding party in teal and gold aso-ebi"
+            loading="lazy"
+            className="w-full h-auto object-cover"
+          />
+        </div>
       </div>
     </section>
   );
 }
 
-function Venue() {
-  const mapsUrl = "https://www.google.com/maps/search/?api=1&query=Abule-Egba+Lagos";
+function Maps() {
+  const venues = [
+    {
+      tag: "Day Two · Morning",
+      title: "Church Wedding",
+      name: "The Wisdom of God Church",
+      address: "15 Siwoku Street, Kabowe Bus-stop, Meiran, Lagos",
+      query: "15 Siwoku Street, Meiran, Lagos",
+    },
+    {
+      tag: "Day Two · Afternoon & Evening",
+      title: "Traditional Engagement & Reception",
+      name: "FF Merritage Event Center",
+      address: "11 Agnes Adeniran Street (off Risikat Majaro Road), U-turn Bus-stop, Abule-Egba, Lagos",
+      query: "11 Agnes Adeniran Street, Abule Egba, Lagos",
+    },
+  ];
+
   return (
     <section id="venue" className="px-6 pb-28">
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 border border-border">
-          <div className="p-10 md:p-14 flex flex-col justify-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">The Venue</span>
-            <h3 className="font-display text-4xl italic mb-5 leading-tight">The Grand Atrium</h3>
-            <p className="text-sm opacity-70 mb-2">Plot 14, Lagos-Abeokuta Expressway,</p>
-            <p className="text-sm opacity-70 mb-8">Abule-Egba, Lagos State, Nigeria.</p>
-            <p className="text-xs opacity-60 mb-8 leading-relaxed border-l border-primary/40 pl-4 italic">
-              Valet parking available from 11:00 AM. Please arrive 30 minutes before each ceremony for the welcome reception.
-            </p>
-            <a href={mapsUrl} target="_blank" rel="noreferrer" className="text-primary font-mono text-[10px] uppercase tracking-[0.22em] underline decoration-primary/40 underline-offset-4 self-start">
-              Open in Google Maps →
-            </a>
-          </div>
-          <div className="min-h-[400px] bg-muted">
-            <iframe
-              title="Wedding venue map — Abule-Egba, Lagos"
-              src="https://www.google.com/maps?q=Abule-Egba%2C%20Lagos&output=embed"
-              className="w-full h-full min-h-[400px] grayscale-[0.4] contrast-[0.95]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+        <header className="mb-12 text-center">
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">The Venues</span>
+          <h2 className="font-display text-5xl md:text-6xl italic">Find Your Way</h2>
+        </header>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {venues.map((v) => (
+            <div key={v.title} className="border border-border bg-card flex flex-col">
+              <div className="p-8">
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-2 block">{v.tag}</span>
+                <h3 className="font-display text-3xl italic mb-3 leading-tight">{v.title}</h3>
+                <p className="text-sm font-medium">{v.name}</p>
+                <p className="text-sm opacity-70 italic mt-1 mb-4">{v.address}</p>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.query)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary font-mono text-[10px] uppercase tracking-[0.22em] underline decoration-primary/40 underline-offset-4"
+                >
+                  Open in Google Maps →
+                </a>
+              </div>
+              <div className="min-h-[320px] bg-muted">
+                <iframe
+                  title={`Map — ${v.title}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(v.query)}&output=embed`}
+                  className="w-full h-full min-h-[320px] grayscale-[0.4] contrast-[0.95]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -313,7 +391,7 @@ function Asoebi() {
         <div className="md:col-span-2 grid sm:grid-cols-3 gap-6">
           {ASOEBI.map((a) => (
             <div key={a.name} className="bg-background border border-border p-4 flex flex-col">
-              <img src={a.img} alt={a.name} width={600} height={600} loading="lazy" className="aspect-square w-full object-cover mb-4" />
+              <img src={a.img} alt={a.name} loading="lazy" className="aspect-square w-full object-cover mb-4" />
               <h4 className="font-display text-xl italic leading-tight">{a.name}</h4>
               <p className="text-[10px] uppercase tracking-widest opacity-50 mt-1 mb-3">{a.sub}</p>
               <p className="font-mono text-sm text-primary mb-4">{a.price}</p>
@@ -345,7 +423,7 @@ function Registry() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        <GiftCard tag="Honeymoon Fund" title="A Trip to Zanzibar" body="Help us toast our new chapter on a quiet East African beach." cta="Contribute" href="#rsvp" />
+        <GiftCard tag="Honeymoon Fund" title="A Trip to Zanzibar" body="Help us toast our new chapter on a quiet East African beach." cta="Contribute" href="#registry" />
         <GiftCard tag="Home Registry" title="Our First Home" body="Curated essentials for the Lagos apartment we're building together." cta="View Registry" href="https://www.amazon.com/wedding" />
         <GiftCard
           tag="Direct Gift"
@@ -396,8 +474,7 @@ function Seating() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Seating Chart</span>
-          <h2 className="font-display text-5xl md:text-6xl italic mb-4">Find Your Seat</h2>
-          <p className="text-sm opacity-70 italic">Enter your full name as on your invitation, or browse the floor plan below.</p>
+          <h2 className="font-display text-5xl md:text-6xl italic mb-4">The Reception Floor Plan</h2>
         </div>
 
         <div className="max-w-2xl mx-auto">
@@ -406,7 +483,7 @@ function Seating() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               type="text"
-              placeholder="e.g. Adunni Okafor"
+              placeholder="Search your name…"
               className="w-full border-b border-border py-4 bg-transparent focus:outline-none focus:border-primary font-display italic text-2xl text-center placeholder:opacity-30"
             />
           </form>
@@ -423,9 +500,6 @@ function Seating() {
                 <p className="text-xs opacity-70 mt-2 uppercase tracking-[0.2em]">{result.hall}</p>
               </div>
             )}
-            {!result && (
-              <p className="text-[10px] opacity-40 font-mono uppercase tracking-[0.22em]">Try "Adunni Okafor" or "Tunde Balogun"</p>
-            )}
           </div>
         </div>
 
@@ -436,7 +510,7 @@ function Seating() {
               <h3 className="font-display text-3xl italic">The Hall, At a Glance</h3>
             </div>
             <a
-              href={seatingChartPdfAsset.url}
+              href={SEATING_PDF}
               target="_blank"
               rel="noreferrer"
               className="text-[10px] uppercase tracking-[0.22em] border border-border px-4 py-2.5 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
@@ -446,7 +520,7 @@ function Seating() {
           </div>
           <div className="border border-border bg-cream p-4 md:p-6">
             <img
-              src={seatingChartAsset.url}
+              src={SEATING_PNG}
               alt="Reception seating chart and floor plan for Tobi and Adebola's wedding"
               loading="lazy"
               className="w-full h-auto object-contain"
@@ -479,90 +553,11 @@ function Gallery() {
   );
 }
 
-function RSVP() {
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitted(true);
-    toast.success("Thank you! We can't wait to celebrate with you.");
-  }
-
-  return (
-    <section id="rsvp" className="py-28 px-6 max-w-2xl mx-auto">
-      <div className="text-center mb-12">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Reply Please</span>
-        <h2 className="font-display text-5xl md:text-6xl italic mb-4">RSVP</h2>
-        <p className="text-sm opacity-70 italic">Kindly respond by November 1, 2026.</p>
-      </div>
-
-      {submitted ? (
-        <div className="bg-card border border-primary/40 p-12 text-center animate-fade-up">
-          <p className="font-display text-3xl italic text-primary mb-2">Thank you</p>
-          <p className="text-sm opacity-70">Your response has been received. Safe travels to Lagos.</p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-8 bg-card p-8 md:p-12 border border-border">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Field label="First Name" name="first" required />
-            <Field label="Last Name" name="last" required />
-          </div>
-          <Field label="Email" name="email" type="email" required />
-
-          <div className="space-y-3">
-            <label className="font-mono text-[9px] uppercase tracking-[0.22em] opacity-60 block">Will you attend?</label>
-            <div className="flex flex-col md:flex-row gap-3 md:gap-8">
-              <label className="flex items-center gap-3 text-sm cursor-pointer"><input type="radio" name="attend" defaultChecked className="accent-primary" /> Joyfully Attend</label>
-              <label className="flex items-center gap-3 text-sm cursor-pointer"><input type="radio" name="attend" className="accent-primary" /> Regretfully Decline</label>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <label className="font-mono text-[9px] uppercase tracking-[0.22em] opacity-60 block">Which Ceremonies?</label>
-            <div className="flex flex-col md:flex-row gap-3 md:gap-6">
-              {EVENTS.map((e) => (
-                <label key={e.title} className="flex items-center gap-2 text-sm cursor-pointer">
-                  <input type="checkbox" defaultChecked className="accent-primary" />
-                  {e.title}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <label className="font-mono text-[9px] uppercase tracking-[0.22em] opacity-60 block">Number of Guests</label>
-            <select name="guests" className="w-full bg-transparent border-b border-border focus:border-primary outline-none py-2 text-sm">
-              <option value="1">1 — Just me</option>
-              <option value="2">2 — Me + 1</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-          </div>
-
-          <Field label="Song Request" name="song" placeholder="What should the DJ play?" />
-
-          <button type="submit" className="w-full py-4 bg-primary text-primary-foreground text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-bronze-deep hover:text-cream transition-colors">
-            Submit Response
-          </button>
-        </form>
-      )}
-    </section>
-  );
-}
-
-function Field({ label, name, type = "text", required, placeholder }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string }) {
-  return (
-    <div className="space-y-2">
-      <label className="font-mono text-[9px] uppercase tracking-[0.22em] opacity-60 block">{label}{required && " *"}</label>
-      <input type={type} name={name} required={required} placeholder={placeholder} className="w-full border-b border-border py-2 bg-transparent focus:outline-none focus:border-primary text-sm placeholder:opacity-30" />
-    </div>
-  );
-}
-
 function Footer() {
   return (
     <footer className="py-16 border-t border-border text-center px-6">
-      <p className="font-display italic text-3xl text-gold-shimmer mb-2">#withloveat26</p>
+      <img src={LOGO} alt="Tobi & Adebola monogram" className="h-16 w-auto mx-auto mb-4 opacity-90" />
+      <p className="font-display italic text-3xl text-gold-shimmer mb-2">{HASHTAG}</p>
       <p className="font-mono text-[9px] uppercase tracking-[0.3em] opacity-50 text-balance max-w-md mx-auto mt-4">
         With deep gratitude to our parents, family, and dear friends who have walked this road with us.
       </p>
@@ -595,7 +590,7 @@ function makeIcs(title: string, location: string, start: string, end: string) {
     "VERSION:2.0",
     "PRODID:-//Tobi & Adebola//EN",
     "BEGIN:VEVENT",
-    `UID:${start}-${title.replace(/\s+/g, "")}@afolabi-union`,
+    `UID:${start}-${title.replace(/\s+/g, "")}@withloveat26`,
     `DTSTAMP:${start}Z`,
     `DTSTART;TZID=Africa/Lagos:${start}`,
     `DTEND;TZID=Africa/Lagos:${end}`,
