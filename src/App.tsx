@@ -4,19 +4,8 @@ import "react-day-picker/style.css";
 import { Toaster } from "sonner";
 import { toast } from "sonner";
 
-import heroCouple from "@/assets/hero-couple.jpg";
-import storyImg from "@/assets/story.jpg";
-import fabricAsooke from "@/assets/fabric-asooke.jpg";
-import fabricLace from "@/assets/fabric-lace.jpg";
-import fabricFila from "@/assets/fabric-fila.jpg";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-
 const ASSET = (p: string) => `${import.meta.env.BASE_URL}assets/${p}`;
 const LOGO = ASSET("wedding-logo.png");
-const WEDDING_PARTY = ASSET("wedding-party.png");
 const SEATING_PNG = ASSET("seating-chart.png");
 const SEATING_PDF = ASSET("seating-chart.pdf");
 
@@ -38,71 +27,57 @@ const EVENTS: Ev[] = [
   {
     key: "court",
     tag: "Day One",
-    date: new Date(2026, 11, 9),
+    date: new Date(2026, 8, 9),
     time: "9:00 AM",
     title: "Court Wedding",
     venue: "Ikoyi Marriage Registry",
     address: "Ikoyi, Lagos, Nigeria",
-    start: "20261209T090000",
-    end: "20261209T110000",
+    start: "20260909T090000",
+    end: "20260909T110000",
   },
   {
     key: "church",
     tag: "Day Two · Morning",
-    date: new Date(2026, 11, 12),
+    date: new Date(2026, 8, 12),
     time: "9:00 AM",
     title: "Church Wedding",
     venue: "The Wisdom of God Church",
     address: "15 Siwoku Street, Kabowe Bus-stop, Meiran, Lagos",
-    start: "20261212T090000",
-    end: "20261212T113000",
+    start: "20260912T090000",
+    end: "20260912T113000",
   },
   {
     key: "trad",
     tag: "Day Two · Afternoon",
-    date: new Date(2026, 11, 12),
+    date: new Date(2026, 8, 12),
     time: "12:00 PM",
     title: "Traditional Engagement",
     venue: "FF Merritage Event Center",
     address:
       "11 Agnes Adeniran Street (off Risikat Majaro Road, beside Heritage Mall), U-turn Bus-stop, Abule-Egba, Lagos",
-    start: "20261212T120000",
-    end: "20261212T143000",
+    start: "20260912T120000",
+    end: "20260912T143000",
   },
   {
     key: "reception",
     tag: "Day Two · Evening",
-    date: new Date(2026, 11, 12),
+    date: new Date(2026, 8, 12),
     time: "3:00 PM",
     title: "Reception",
     venue: "FF Merritage Event Center",
     address:
       "11 Agnes Adeniran Street (off Risikat Majaro Road, beside Heritage Mall), U-turn Bus-stop, Abule-Egba, Lagos",
-    start: "20261212T150000",
-    end: "20261212T220000",
+    start: "20260912T150000",
+    end: "20260912T220000",
   },
 ];
 
-const WEDDING_DATE = new Date("2026-12-12T09:00:00+01:00");
+const WEDDING_DATE = new Date("2026-09-12T09:00:00+01:00");
 
-const ASOEBI = [
-  { img: fabricAsooke, name: "Traditional Aso-Oke (Teal & Gold)", sub: "Complete Set · 4 Yards + Gele", price: "₦95,000" },
-  { img: fabricLace, name: "Reception French Lace", sub: "Premium · 5 Yards + Headtie", price: "₦75,000" },
-  { img: fabricFila, name: "Men's Atiku & Fila Set", sub: "Deep Teal · 4 Yards", price: "₦55,000" },
-];
-
-const SEATING: Record<string, { table: string; hall: string }> = {
-  "adunni okafor": { table: "Table 4 · Coral", hall: "Reception Hall — Front Right" },
-  "tunde balogun": { table: "Table 11 · Bronze", hall: "Reception Hall — Center" },
-  "kemi adewale": { table: "Table 7 · Ivory", hall: "Reception Hall — Front Left" },
-  "ifeanyi obi": { table: "Table 15 · Midnight", hall: "Reception Hall — Back Center" },
-};
-
-const GALLERY = [
-  { src: g1, h: "row-span-2" },
-  { src: g3, h: "" },
-  { src: g4, h: "row-span-2" },
-  { src: g2, h: "" },
+const ASOEBI_ITEMS = [
+  { name: "Traditional Aso-Oke (Teal & Gold)", sub: "Complete Set · 4 Yards + Gele", price: "₦95,000", motif: "◈" },
+  { name: "Reception French Lace", sub: "Premium · 5 Yards + Headtie", price: "₦75,000", motif: "❖" },
+  { name: "Men's Atiku & Fila Set", sub: "Deep Teal · 4 Yards", price: "₦55,000", motif: "✦" },
 ];
 
 export default function App() {
@@ -111,15 +86,33 @@ export default function App() {
       <Hero />
       <Story />
       <Events />
-      <WeddingParty />
       <Maps />
       <Asoebi />
       <Registry />
       <Seating />
-      <Gallery />
       <Footer />
       <Toaster theme="dark" position="top-center" />
     </div>
+  );
+}
+
+function Ornament({ className = "" }: { className?: string }) {
+  return (
+    <div className={`flex items-center justify-center gap-3 text-primary ${className}`}>
+      <span className="h-px w-12 bg-gradient-to-r from-transparent to-primary/60" />
+      <Heart className="h-3 w-3" />
+      <span className="text-lg">✦</span>
+      <Heart className="h-3 w-3" />
+      <span className="h-px w-12 bg-gradient-to-l from-transparent to-primary/60" />
+    </div>
+  );
+}
+
+function Heart({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12 21s-7.5-4.6-9.5-9.2C1.1 8.1 3.5 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.5 0 5.9 3.6 4.5 7.3C19.5 16.4 12 21 12 21z" />
+    </svg>
   );
 }
 
@@ -127,15 +120,18 @@ function Hero() {
   const countdown = useCountdown(WEDDING_DATE);
   return (
     <header id="top" className="relative min-h-[100vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <img src={heroCouple} alt="Oluwatobi and Adebola" className="w-full h-full object-cover object-center opacity-35" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-midnight-deep via-background to-background" />
+      <div className="absolute inset-0 -z-10 opacity-[0.08] pointer-events-none">
+        <div className="absolute top-16 left-10 text-6xl text-primary">✦</div>
+        <div className="absolute top-32 right-16 text-8xl text-primary">❖</div>
+        <div className="absolute bottom-24 left-20 text-7xl text-primary">◈</div>
+        <div className="absolute bottom-40 right-10 text-5xl text-primary">✦</div>
       </div>
 
       <div className="animate-fade-up flex flex-col items-center">
-        <img src={LOGO} alt="Tobi & Adebola monogram" className="h-28 md:h-36 w-auto mb-6 drop-shadow-[0_4px_24px_rgba(225,164,66,0.35)]" />
+        <img src={LOGO} alt="Tobi & Adebola monogram" className="h-28 md:h-40 w-auto mb-6 drop-shadow-[0_4px_24px_rgba(225,164,66,0.35)]" />
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] mb-6 block text-gold-light">
-          Lagos, Nigeria · December 2026
+          Lagos, Nigeria · September 2026
         </span>
         <h1 className="font-display text-6xl md:text-8xl lg:text-9xl italic leading-[0.9] text-balance mb-6">
           Oluwatobi <br className="md:hidden" />
@@ -169,20 +165,99 @@ function Hero() {
 }
 
 function Story() {
+  const oluwatobi1 = [
+    "Every love story has a beginning, and ours began long before we knew it would become forever.",
+    "We had been friends for a while: sharing conversations, laughter, and little moments that quietly laid the foundation for something deeper.",
+    "Then one day, it started with a simple WhatsApp message.",
+  ];
+  const adebola1 = [
+    "There was something special about her response.",
+    "It wasn't just the calmness in her words or the gentle way she turned my question into one of her own; it was the swiftness, the unspoken certainty behind it, almost as if her reply carried the silent question:",
+  ];
+  const oluwatobi2 = [
+    "Later that night, he called.",
+    "I remember it vividly. There was no room for pretence, no beating around the bush. I asked the question that mattered most:",
+  ];
+  const adebola2 = [
+    "At that moment, I knew this was it; the kind of moment you don't let slip away.",
+    "Like the old saying goes, strike while the iron is hot.",
+  ];
+
   return (
-    <section id="story" className="max-w-5xl mx-auto py-28 px-6 grid md:grid-cols-2 gap-16 items-center">
-      <img src={storyImg} alt="The couple at golden hour" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-      <div>
+    <section id="story" className="max-w-3xl mx-auto py-28 px-6">
+      <div className="text-center mb-14">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">Our Story</span>
-        <h2 className="font-display text-5xl italic mb-8 leading-tight">A Decade in the Making</h2>
-        <div className="space-y-5 text-pretty leading-relaxed text-foreground/80">
-          <p>It began in the quiet halls of the University of Lagos, where a borrowed textbook turned into a four-hour conversation at the faculty lounge.</p>
-          <p>From Lagos to London and back again, we've grown through every season — always finding our way back to the simple joy of each other's company.</p>
-          <p className="font-display text-2xl italic text-primary pt-2">"I found the one my soul loves."</p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-60">— Song of Solomon 3:4</p>
-        </div>
+        <h2 className="font-display text-5xl md:text-6xl italic mb-4 leading-tight">Story Time, Grab Some Popcorn 🍿</h2>
+        <Ornament className="mt-6" />
       </div>
+
+      <div className="space-y-10 text-pretty leading-relaxed text-foreground/85">
+        <Voice name="Oluwatobi">
+          {oluwatobi1.map((p, i) => <p key={i}>{p}</p>)}
+          <p className="font-display italic text-2xl text-primary pt-2">"Would you like to go to the cinema with me?"</p>
+          <p>he asked.</p>
+          <p>I smiled and replied,</p>
+          <p className="font-display italic text-2xl text-primary">"Are you saying you want to take me on a movie date?"</p>
+        </Voice>
+
+        <Divider />
+
+        <Voice name="Adebola">
+          {adebola1.map((p, i) => <p key={i}>{p}</p>)}
+          <p className="font-display italic text-2xl text-primary pt-2">"What took you so long?"</p>
+          <p>That was all the encouragement I needed.</p>
+          <p className="font-display italic text-xl text-foreground/80">"Let's talk about it tonight. Will you call me?" she said.</p>
+          <p className="font-display italic text-xl text-foreground/80">"Yes, I will," I replied.</p>
+          <p>And I knew that call would change everything.</p>
+        </Voice>
+
+        <Divider />
+
+        <Voice name="Oluwatobi">
+          {oluwatobi2.map((p, i) => <p key={i}>{p}</p>)}
+          <p className="font-display italic text-2xl text-primary pt-2">"Why do you like me?"</p>
+          <p>He paused, and then answered with a sincerity I'll never forget:</p>
+          <p className="font-display italic text-2xl text-primary">"To be honest, I like you… but I have no reason."</p>
+          <p>Strangely enough, that was the perfect answer.</p>
+          <p>Because sometimes love doesn't arrive with explanations. Sometimes, it simply is.</p>
+        </Voice>
+
+        <Divider />
+
+        <Voice name="Adebola">
+          {adebola2.map((p, i) => <p key={i}>{p}</p>)}
+          <p className="font-display italic text-3xl text-primary pt-2">"Be my girlfriend."</p>
+          <p>And without a second thought, she said yes.</p>
+          <p>That "yes" was the beginning of our journey: a journey of love, growth, friendship, and choosing each other every day.</p>
+          <p>And now, here we are… standing at the edge of forever, ready for the next chapter.</p>
+          <p className="italic">
+            Turns out, that simple trip to the cinema was never just a movie date after all. It was the opening scene of our forever story.{" "}
+            <Heart className="inline h-4 w-4 text-primary" />
+          </p>
+        </Voice>
+      </div>
+
+      <Ornament className="mt-16" />
     </section>
+  );
+}
+
+function Voice({ name, children }: { name: string; children: React.ReactNode }) {
+  return (
+    <div className="border-l-2 border-primary/40 pl-6 md:pl-8">
+      <p className="font-script text-4xl text-gold-shimmer mb-4 leading-none">{name}</p>
+      <div className="space-y-3">{children}</div>
+    </div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className="flex items-center justify-center gap-4 py-2 text-primary/60">
+      <span className="h-px w-16 bg-primary/30" />
+      <Heart className="h-3 w-3" />
+      <span className="h-px w-16 bg-primary/30" />
+    </div>
   );
 }
 
@@ -218,7 +293,7 @@ function Events() {
                 mode="single"
                 selected={selected}
                 onSelect={setSelected}
-                defaultMonth={new Date(2026, 11, 1)}
+                defaultMonth={new Date(2026, 8, 1)}
                 modifiers={{ event: eventDates }}
                 modifiersClassNames={{
                   event: "event-day",
@@ -252,7 +327,7 @@ function Events() {
             </div>
 
             {selectedEvents.length === 0 ? (
-              <p className="text-sm opacity-60 italic pl-5">Try Dec 9 or Dec 12, 2026.</p>
+              <p className="text-sm opacity-60 italic pl-5">Try Sep 9 or Sep 12, 2026.</p>
             ) : (
               selectedEvents.map((e) => (
                 <article key={e.key} className="bg-background border border-border p-6 animate-fade-up">
@@ -280,34 +355,6 @@ function Events() {
   );
 }
 
-function WeddingParty() {
-  return (
-    <section id="dress-code" className="py-28 px-6 max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Our Aso-Ebi Family</span>
-          <h2 className="font-display text-5xl md:text-6xl italic mb-6 leading-tight">Wear Our Colours</h2>
-          <p className="text-base opacity-80 leading-relaxed mb-4">
-            Our family and friends will be glowing in tones of <span className="text-primary italic">teal, emerald</span>,
-            and <span className="text-primary italic">gold</span> across both wedding days.
-          </p>
-          <p className="text-sm opacity-60 italic">
-            Order your aso-ebi fabric below to join the family portrait.
-          </p>
-        </div>
-        <div className="border border-border bg-card p-3">
-          <img
-            src={WEDDING_PARTY}
-            alt="Wedding party in teal and gold aso-ebi"
-            loading="lazy"
-            className="w-full h-auto object-cover"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Maps() {
   const venues = [
     {
@@ -327,7 +374,7 @@ function Maps() {
   ];
 
   return (
-    <section id="venue" className="px-6 pb-28">
+    <section id="venue" className="px-6 py-28">
       <div className="max-w-6xl mx-auto">
         <header className="mb-12 text-center">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">The Venues</span>
@@ -382,16 +429,21 @@ function Asoebi() {
             Hand-picked fabrics for the traditional engagement and reception. Place your order via WhatsApp and pay on confirmation.
           </p>
           <div className="p-6 bg-background border border-border">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] mb-3 text-primary">Payment Details</p>
-            <p className="text-sm font-medium">GTBank · Adebola & Tobi</p>
-            <p className="text-sm tabular-nums opacity-80">0123 456 789</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] mb-3 text-primary">Our Colours</p>
+            <div className="flex gap-2">
+              <span className="w-8 h-8 rounded-full bg-midnight border border-border" title="Midnight teal" />
+              <span className="w-8 h-8 rounded-full bg-gradient-gold border border-border" title="Gold" />
+              <span className="w-8 h-8 rounded-full bg-cream border border-border" title="Cream" />
+            </div>
           </div>
         </div>
 
         <div className="md:col-span-2 grid sm:grid-cols-3 gap-6">
-          {ASOEBI.map((a) => (
-            <div key={a.name} className="bg-background border border-border p-4 flex flex-col">
-              <img src={a.img} alt={a.name} loading="lazy" className="aspect-square w-full object-cover mb-4" />
+          {ASOEBI_ITEMS.map((a) => (
+            <div key={a.name} className="bg-background border border-border p-6 flex flex-col">
+              <div className="aspect-square w-full mb-4 bg-gradient-to-br from-midnight-soft to-midnight-deep border border-border flex items-center justify-center">
+                <span className="text-6xl text-gold-shimmer">{a.motif}</span>
+              </div>
               <h4 className="font-display text-xl italic leading-tight">{a.name}</h4>
               <p className="text-[10px] uppercase tracking-widest opacity-50 mt-1 mb-3">{a.sub}</p>
               <p className="font-mono text-sm text-primary mb-4">{a.price}</p>
@@ -412,6 +464,11 @@ function Asoebi() {
 }
 
 function Registry() {
+  const copy = (val: string, label: string) => {
+    navigator.clipboard?.writeText(val);
+    toast.success(`${label} copied`);
+  };
+
   return (
     <section id="registry" className="py-28 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
@@ -420,90 +477,86 @@ function Registry() {
         <p className="text-sm opacity-70 max-w-lg mx-auto italic">
           Should you wish to honour us further, we have made a few options below.
         </p>
+        <Ornament className="mt-8" />
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        <GiftCard tag="Honeymoon Fund" title="A Trip to Zanzibar" body="Help us toast our new chapter on a quiet East African beach." cta="Contribute" href="#registry" />
-        <GiftCard tag="Home Registry" title="Our First Home" body="Curated essentials for the Lagos apartment we're building together." cta="View Registry" href="https://www.amazon.com/wedding" />
-        <GiftCard
-          tag="Direct Gift"
-          title="Bank Transfer"
-          body={
-            <span className="block font-mono text-xs leading-relaxed">
-              GTBank<br />
-              0123 456 789<br />
-              Adebola & Tobi
-            </span>
-          }
-          cta="Copy Account"
-          onClick={() => {
-            navigator.clipboard?.writeText("0123456789");
-            toast.success("Account number copied");
-          }}
-        />
+        <div className="p-10 bg-card border border-border flex flex-col">
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">Naira Bank Transfer</span>
+          <h3 className="font-display text-3xl italic mb-6 leading-tight">Wema Bank</h3>
+          <dl className="text-sm space-y-3 mb-8 flex-1">
+            <Row label="Currency" value="Naira" />
+            <Row label="Account No." value="0263498932" mono />
+            <Row label="Bank" value="Wema Bank" />
+            <Row label="Account Name" value="Ajao Oluwatobi" />
+          </dl>
+          <button
+            onClick={() => copy("0263498932", "Account number")}
+            className="text-[10px] uppercase tracking-[0.22em] border-b border-primary pb-1 text-primary self-start hover:text-cream hover:border-cream transition-colors"
+          >
+            Copy Account →
+          </button>
+        </div>
+
+        <div className="p-10 bg-card border border-border flex flex-col">
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">International Bank Transfer</span>
+          <h3 className="font-display text-3xl italic mb-6 leading-tight">Revolut Bank</h3>
+          <dl className="text-sm space-y-3 mb-8 flex-1">
+            <Row label="Currency" value="Euro" />
+            <Row label="Beneficiary" value="Adebola Ojo" />
+            <Row label="IBAN" value="LT33 3250 0910 0051 5428" mono />
+            <Row label="BIC / SWIFT" value="REVOLT21" mono />
+            <Row label="Bank" value="Revolut Bank" />
+          </dl>
+          <button
+            onClick={() => copy("LT33 3250 0910 0051 5428", "IBAN")}
+            className="text-[10px] uppercase tracking-[0.22em] border-b border-primary pb-1 text-primary self-start hover:text-cream hover:border-cream transition-colors"
+          >
+            Copy IBAN →
+          </button>
+        </div>
+
+        <a
+          href="https://www.paypal.me/Adebola100"
+          target="_blank"
+          rel="noreferrer"
+          className="group p-10 bg-card border border-border flex flex-col hover:bg-bronze-deep hover:border-primary transition-colors"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">PayPal</span>
+          <h3 className="font-display text-3xl italic mb-6 leading-tight">Give to us</h3>
+          <p className="text-sm opacity-75 mb-8 leading-relaxed flex-1">
+            Send us a gift via PayPal — quick, simple, and from anywhere in the world.
+          </p>
+          <span className="font-mono text-xs text-primary group-hover:text-cream break-all mb-3">paypal.me/Adebola100</span>
+          <span className="inline-block text-[10px] uppercase tracking-[0.22em] border-b border-primary pb-1 text-primary self-start group-hover:text-cream group-hover:border-cream transition-colors">
+            Open PayPal →
+          </span>
+        </a>
       </div>
     </section>
   );
 }
 
-function GiftCard({ tag, title, body, cta, href, onClick }: { tag: string; title: string; body: React.ReactNode; cta: string; href?: string; onClick?: () => void }) {
-  const inner = (
-    <>
-      <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-4">{tag}</span>
-      <h3 className="font-display text-3xl italic mb-4 leading-tight">{title}</h3>
-      <div className="text-sm opacity-75 mb-8 leading-relaxed">{body}</div>
-      <span className="inline-block text-[10px] uppercase tracking-[0.22em] border-b border-primary pb-1 text-primary group-hover:text-cream group-hover:border-cream transition-colors">{cta} →</span>
-    </>
+function Row({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div className="flex justify-between items-baseline gap-4 border-b border-border/50 pb-2">
+      <dt className="font-mono text-[9px] uppercase tracking-[0.22em] opacity-60 shrink-0">{label}</dt>
+      <dd className={`text-right ${mono ? "font-mono text-xs" : "text-sm"}`}>{value}</dd>
+    </div>
   );
-  const className = "group block p-10 bg-card border border-border hover:bg-bronze-deep hover:border-primary transition-colors";
-  if (onClick) return <button onClick={onClick} className={`${className} text-left`}>{inner}</button>;
-  return <a href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={className}>{inner}</a>;
 }
 
 function Seating() {
-  const [query, setQuery] = useState("");
-  const result = useMemo<null | "missing" | { table: string; hall: string }>(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return null;
-    const match = SEATING[q];
-    return match ?? "missing";
-  }, [query]);
-
   return (
     <section id="seating" className="py-28 px-6 bg-card border-y border-border">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Seating Chart</span>
           <h2 className="font-display text-5xl md:text-6xl italic mb-4">The Reception Floor Plan</h2>
+          <Ornament className="mt-6" />
         </div>
 
-        <div className="max-w-2xl mx-auto">
-          <form onSubmit={(e) => e.preventDefault()} className="relative mb-6">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              type="text"
-              placeholder="Search your name…"
-              className="w-full border-b border-border py-4 bg-transparent focus:outline-none focus:border-primary font-display italic text-2xl text-center placeholder:opacity-30"
-            />
-          </form>
-
-          <div className="min-h-[80px] text-center">
-            {result === "missing" && (
-              <p className="text-sm text-foreground/60 italic">
-                We couldn't find that name. Please check your invitation or reach out to the bridal party.
-              </p>
-            )}
-            {result && result !== "missing" && (
-              <div className="border border-primary/40 p-6 bg-background animate-fade-up">
-                <p className="font-display text-3xl italic text-primary">{result.table}</p>
-                <p className="text-xs opacity-70 mt-2 uppercase tracking-[0.2em]">{result.hall}</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-20">
+        <div className="mt-4">
           <div className="flex flex-wrap justify-between items-end gap-4 mb-6">
             <div>
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary block mb-2">Reception Floor Plan</span>
@@ -527,27 +580,6 @@ function Seating() {
             />
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Gallery() {
-  return (
-    <section id="gallery" className="py-28 px-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-end mb-12">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Moments</span>
-          <h2 className="font-display text-5xl md:text-6xl italic">The Gallery</h2>
-        </div>
-        <p className="hidden md:block text-sm opacity-60 italic max-w-xs text-right">Pre-wedding glimpses of our journey so far.</p>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-3 auto-rows-[200px] md:auto-rows-[220px]">
-        {GALLERY.map((g, i) => (
-          <div key={i} className={`overflow-hidden ${g.h}`}>
-            <img src={g.src} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-          </div>
-        ))}
       </div>
     </section>
   );
