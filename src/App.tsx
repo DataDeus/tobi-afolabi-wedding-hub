@@ -87,6 +87,7 @@ export default function App() {
       <Story />
       <Events />
       <Maps />
+      <DressChart />
       <Asoebi />
       <Registry />
       <Seating />
