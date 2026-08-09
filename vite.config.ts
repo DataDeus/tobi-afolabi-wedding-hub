@@ -14,3 +14,8 @@ export default defineConfig({
     strictPort: true,
   },
 });
+
+export default defineConfig({
+  base: 'tobi-afolabi-wedding-hub',
+  ...
+})
