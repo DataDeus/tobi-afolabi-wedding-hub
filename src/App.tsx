@@ -87,6 +87,7 @@ export default function App() {
       <Story />
       <Events />
       <Maps />
+      <DressChart />
       <Asoebi />
       <Registry />
       <Seating />
@@ -407,6 +408,36 @@ function Maps() {
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DressChart() {
+  return (
+    <section id="dress-chart" className="py-28 px-6 border-y border-border">
+      <div className="max-w-5xl mx-auto text-center">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-3 block">Dress Chart</span>
+        <h2 className="font-display text-4xl md:text-5xl italic mb-4">Wear Our Colours</h2>
+        <p className="text-muted-foreground max-w-xl mx-auto mb-10 text-sm leading-relaxed">
+          Teal, emerald and gold. Use this chart as your guide for aso-ebi, lace, gele and agbada styling.
+        </p>
+        <div className="relative inline-block border border-border p-3 bg-card">
+          <img
+            src={ASSET("dress-chart.png")}
+            alt="Wedding dress chart showing teal, emerald and gold aso-ebi styles for guests"
+            className="w-full max-w-2xl object-contain"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex items-center justify-center gap-4 mt-10">
+          {["#0e3534", "#137a6e", "#2fb8a4", "#e1a442", "#f2de78"].map((c) => (
+            <div key={c} className="text-center">
+              <span className="block h-10 w-10 rounded-full border border-border" style={{ background: c }} />
+              <span className="font-mono text-[9px] text-muted-foreground mt-2 block">{c}</span>
             </div>
           ))}
         </div>
